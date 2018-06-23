@@ -25,6 +25,25 @@ Please contact `jp08-at-foxmail-dot-com` for more details.
 Below is the primary README of ORBSLAM2.
 
 *****
+if  问题原因：Eigen3的bug
+解决方法：打开Thirdparty/g2o/g2o/solvers/linear_solver_eigen.h，将以下代码
+1 template <typename MatrixType>
+2 class LinearSolverEigen: public LinearSolver<MatrixType>
+3 {
+4   public:
+5     typedef Eigen::SparseMatrix<double, Eigen::ColMajor> SparseMatrix;
+6     typedef Eigen::Triplet<double> Triplet;
+7     typedef Eigen::PermutationMatrix<Eigen::Dynamic, Eigen::Dynamic, SparseMatrix::Index> PermutationMatrix;
+    change into
+1 template <typename MatrixType>
+2 class LinearSolverEigen: public LinearSolver<MatrixType>
+3 {
+4   public:
+5     typedef Eigen::SparseMatrix<double, Eigen::ColMajor> SparseMatrix;
+6     typedef Eigen::Triplet<double> Triplet;
+8     typedef Eigen::PermutationMatrix<Eigen::Dynamic, Eigen::Dynamic, int> PermutationMatrix;
+
+
 
 # ORB-SLAM2
 **Authors:** [Raul Mur-Artal](http://webdiis.unizar.es/~raulmur/), [Juan D. Tardos](http://webdiis.unizar.es/~jdtardos/), [J. M. M. Montiel](http://webdiis.unizar.es/~josemari/) and [Dorian Galvez-Lopez](http://doriangalvez.com/) ([DBoW2](https://github.com/dorian3d/DBoW2))
